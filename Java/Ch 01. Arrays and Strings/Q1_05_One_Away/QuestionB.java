@@ -14,7 +14,7 @@ public static boolean oneEditAway(String first, String second) {
 		int index1 = 0;
 		int index2 = 0;
 		boolean foundDifference = false;
-		while (index2 < s2.length() && index1 < s1.length()) {
+		while (index1 < s1.length()) {
 			if (s1.charAt(index1) != s2.charAt(index2)) {
 				/* Ensure that this is the first difference found.*/
 				if (foundDifference) return false;

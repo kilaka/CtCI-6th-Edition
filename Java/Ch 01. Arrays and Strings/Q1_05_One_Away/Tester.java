@@ -3,6 +3,7 @@ package Q1_05_One_Away;
 public class Tester {
 	
 	public static void test(String a, String b, boolean expected) {
+		System.out.println("Testing: " + a + ", " + b +" ...");
 		boolean resultA = QuestionA.oneEditAway(a, b);
 		boolean resultB = QuestionB.oneEditAway(a, b);		
 		
@@ -17,6 +18,7 @@ public class Tester {
 		String[][] tests = {{"a", "b", "true"}, 
 				{"", "d", "true"},
 				{"d", "de", "true"},
+				{"abc", "bc", "true"},
 				{"pale", "pse", "false"},
 				{"acdsfdsfadsf", "acdsgdsfadsf", "true"},
 				{"acdsfdsfadsf", "acdsfdfadsf", "true"},
