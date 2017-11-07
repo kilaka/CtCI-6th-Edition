@@ -12,9 +12,8 @@ public class QuestionD {
 		while (a != 0) {
 			if ((a & 1) == 1) {
 				currentLength++;
-			} else if ((a & 1) == 0) {
-				/* Update to 0 (if next bit is 0) or currentLength (if next bit is 1). */
-				previousLength = (a & 2) == 0 ? 0 : currentLength;
+			} else {
+				previousLength = currentLength;
 				currentLength = 0;
 			}
 			maxLength = Math.max(previousLength + currentLength + 1, maxLength);
