@@ -1,37 +1,35 @@
 package Q8_05_Recursive_Multiply;
 
-public class QuestionC {
+public class QuestionCNonRecursive {
 
 	public static int counter = 0;
-	
-	public static int minProductHelper(int smaller, int bigger) {
-		if (smaller == 0) {
-			return 0;
-		} else if (smaller == 1) {
-			return bigger;
-		} 
-		
-		int s = smaller >> 1;
-		int halfProd = minProductHelper(s, bigger);
 
-		halfProd<<=1;
-		counter++;
-		if (smaller % 2 == 0) {
-			return halfProd;
-		} else {
+	public static int minProductHelper(int smaller, int bigger) {
+		if (smaller == 0) return 0;
+		int product = bigger;
+		int reminder = 0;
+		while (smaller > 1) {
+			if (smaller % 2 == 1) {
+				reminder += product;
+				smaller--;
+			}
 			counter++;
-			return halfProd + bigger;
+			product <<= 1;
+			smaller >>= 1;
 		}
+		counter++;
+		product += reminder;
+		return product;
 	}
 
-	
+
 	public static int minProduct(int a, int b) {
 		int bigger = a < b ? b : a;
 		int smaller = a < b ? a : b;
-		
+
 		return minProductHelper(smaller, bigger);
 	}
-	
+
 	public static void main(String[] args) {
 		int a = 13494;
 		int b = 22323;
