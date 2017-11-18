@@ -6,46 +6,51 @@ import java.util.stream.IntStream;
 
 public class QuestionAlik {
 
-	private static Stack<Integer> from;
-	private static Stack<Integer> to;
-	private static Stack<Integer> temp;
+	private static Stack<Integer> source;
+	private static Stack<Integer> target;
+	private static Stack<Integer> help;
+
+	private static int moves = 0;
 
 	public static void solveHanoi(Stack<Integer> from, Stack<Integer> to, Stack<Integer> temp) {
 		solveHanoi(from.size(), from, to, temp);
 	}
 
-	public static void solveHanoi(int fromSize, Stack<Integer> from, Stack<Integer> to, Stack<Integer> temp) {
+	public static void solveHanoi(int fromSize, Stack<Integer> source, Stack<Integer> target, Stack<Integer> help) {
 		if (fromSize == 1) {
-			to.push(from.pop());
+			target.push(source.pop());
+			moves++;
 			print();
 			return;
 		}
-		solveHanoi(fromSize - 1, from, temp, to);
-		to.push(from.pop());
+		solveHanoi(fromSize - 1, source, help, target);
+		target.push(source.pop());
+		moves++;
 		print();
-		solveHanoi(fromSize - 1, temp, to, from);
+		solveHanoi(fromSize - 1, help, target, source);
 	}
 
 	private static void print() {
 		System.out.println();
-		System.out.println(Arrays.toString(from.toArray()));
-		System.out.println(Arrays.toString(temp.toArray()));
-		System.out.println(Arrays.toString(to.toArray()));
+		System.out.println(Arrays.toString(source.toArray()));
+		System.out.println(Arrays.toString(help.toArray()));
+		System.out.println(Arrays.toString(target.toArray()));
 	}
 
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
-		from = new Stack<>();
-		int range = 18;
-		revRange(1, range+1).forEach(from::push);
+		source = new Stack<>();
+		int disks = 1;
+		revRange(1, disks+1).forEach(source::push);
 //		IntStream.of(10,9,8,7,6,5,4,3,2,1).forEach(from::push);
-		to = new Stack<>();
-		temp = new Stack<>();
+		target = new Stack<>();
+		help = new Stack<>();
 		print();
-		solveHanoi(from, to, temp);
+		solveHanoi(source, target, help);
 		print();
 		System.out.println();
 		System.out.println("Seconds run:" + (System.currentTimeMillis() - startTime)/1000);
+		System.out.println("Moves: " + moves);
 	}
 
 	static IntStream revRange(int from, int to) {
