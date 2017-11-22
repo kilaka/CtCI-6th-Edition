@@ -3,14 +3,14 @@ package Q8_12_Eight_Queens;
 import java.util.ArrayList;
 
 public class Question {
-	public static int GRID_SIZE = 8;
+	public static int GRID_SIZE = 13;
 	
 	/* Check if (row1, column1) is a valid spot for a queen by checking if there
 	 * is a queen in the same column or diagonal. We don't need to check it for queens
 	 * in the same row because the calling placeQueen only attempts to place one queen at
 	 * a time. We know this row is empty. 
 	 */
-	public static boolean checkValid(Integer[] columns, int row1, int column1) {
+	public static boolean checkValid(int[] columns, int row1, int column1) {
 		for (int row2 = 0; row2 < row1; row2++) {
 			int column2 = columns[row2];
 			/* Check if (row2, column2) invalidates (row1, column1) as a queen spot. */
@@ -31,7 +31,7 @@ public class Question {
 		return true;
 	}
 	
-	public static void placeQueens(int row, Integer[] columns, ArrayList<Integer[]> results) {
+	public static void placeQueens(int row, int[] columns, ArrayList<int[]> results) {
 		if (row == GRID_SIZE) { // Found valid placement
 			results.add(columns.clone()); 
 		} else {
@@ -44,13 +44,13 @@ public class Question {
 		}
 	}
 	
-	public static void clear(Integer[] columns) {
+	public static void clear(int[] columns) {
 		for (int i = 0; i < GRID_SIZE; i++) {
 			columns[i] = -1;
 		}
 	}
 	
-	public static void printBoard(Integer[] columns) {
+	public static void printBoard(int[] columns) {
         drawLine();
         for(int i = 0; i < GRID_SIZE; i++){
 			System.out.print("|");
@@ -76,19 +76,26 @@ public class Question {
 
 
 	
-	public static void printBoards(ArrayList<Integer[]> boards) {
+	public static void printBoards(ArrayList<int[]> boards) {
 		for (int i = 0; i < boards.size(); i++) {
-			Integer[] board = boards.get(i);
+			int[] board = boards.get(i);
 			printBoard(board);
 		}
 	}
 	   
 	public static void main(String[] args) {
-		ArrayList<Integer[]> results = new ArrayList<Integer[]>();
-		Integer[] columns = new Integer[GRID_SIZE];
+		ArrayList<int[]> results = new ArrayList<>();
+		int[] columns = new int[GRID_SIZE];
 		clear(columns);
+		long currerntMillis = System.currentTimeMillis();
 		placeQueens(0, columns, results);
-		printBoards(results);
+//		printBoards(results);
+		System.out.println("Time:\n" + (System.currentTimeMillis() - currerntMillis));
 		System.out.println(results.size());
+		currerntMillis = System.currentTimeMillis();
+		PlaceQueensAlik questionAlik = new PlaceQueensAlik();
+		questionAlik.placeQueens();
+		System.out.println("Time Alik:\n" + (System.currentTimeMillis() - currerntMillis));
+		System.out.println("Alik: " + questionAlik.boards.size());
 	}
 }
