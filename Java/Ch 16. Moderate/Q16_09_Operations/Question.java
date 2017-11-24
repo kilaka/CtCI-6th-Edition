@@ -1,5 +1,6 @@
 package Q16_09_Operations;
 
+import java.text.MessageFormat;
 import java.util.Random;
 
 import CtCILibrary.AssortedMethods;
@@ -15,7 +16,7 @@ public class Question {
 		}
 	    return neg;
 	}
-	
+
 	/* Flip a positive sign to negative, or a negative sign to pos */
 	public static int negateOptimized(int a) {
 		int neg = 0;
@@ -31,11 +32,27 @@ public class Question {
 			delta += delta; // Double the delta
 		}
 	    return neg;
-	}	
+	}
+
+	// Use bitwise operations instead of a loop
+	public static int negateOptimizedAlik(int a) {
+		if (a == 0) return 0;
+//		System.out.println(Integer.toBinaryString(a));
+		int negate = ~a;
+//		System.out.println(Integer.toBinaryString(negate));
+		negate &= Integer.MAX_VALUE;
+//		System.out.println(Integer.toBinaryString(negate));
+		negate += 1;
+//		System.out.println(Integer.toBinaryString(negate));
+		negate |= ~a & Integer.MIN_VALUE;
+//		System.out.println(Integer.toBinaryString(negate));
+		return negate;
+
+	}
 
 	/* Subtract two numbers by negating b and adding them */
 	public static int minus(int a, int b) {
-		return a + negate(b);
+		return a + negateOptimized(b);
 	}
 
 	/* Return absolute value */
@@ -69,32 +86,35 @@ public class Question {
 		}
 		int absa = abs(a);
 		int absb = abs(b);
-		
+
 		int product = 0;
 		int x = 0;
 		while (product + absb <= absa) { /* don't go past a */
 			product += absb;
 			x++;
 		}
-		
+
 		if ((a < 0 && b < 0) || (a > 0 && b > 0)) {
 			return x;
 		} else {
 			return negateOptimized(x);
 		}
 	}
-	
+
 	public static void main(String[] args) {
+		long timeMillils = System.currentTimeMillis();
+//		System.out.println(Integer.toBinaryString(-2147483648));
 		int minRange = -100;
 		int maxRange = 100;
 		int cycles = 100;
-		
+
 		for (int i = 0; i < cycles; i++) {
 			int a = AssortedMethods.randomIntInRange(minRange, maxRange);
 			int b = AssortedMethods.randomIntInRange(minRange, maxRange);
 			int ans = minus(a, b);
 			if (ans != a - b) {
 				System.out.println("ERROR");
+				return;
 			}
 			System.out.println(a + " - " + b + " = " + ans);
 		}
@@ -104,6 +124,7 @@ public class Question {
 			int ans = multiply(a, b);
 			if (ans != a * b) {
 				System.out.println("ERROR");
+				return;
 			}
 			System.out.println(a + " * " + b + " = " + ans);
 		}
@@ -113,10 +134,18 @@ public class Question {
 			System.out.print(a + " / " + b + " = ");
 			int ans = divide(a, b);
 			if (ans != a / b) {
-				System.out.println("ERROR");
+				System.out.println(MessageFormat.format("ERROR: {0}", ans));
+				return;
 			}
 			System.out.println(ans);
 		}
+
+//		System.out.println(Integer.toBinaryString(0x8000));
+//		System.out.println(Integer.toBinaryString(Integer.MAX_VALUE));
+//		System.out.println(Integer.toBinaryString(Integer.MIN_VALUE));
+//		System.out.println(negateOptimized(0));
+		System.out.println("Time: " + (System.currentTimeMillis() - timeMillils));
+
 	}
 
 }
