@@ -30,8 +30,7 @@ public class Line {
 		return ((double) r) * epsilon;
 	}
     
-	public boolean isEquivalent(Object o) {  
-		Line l = (Line) o;
+	public boolean isEquivalent(Line l) {
     	if (isEquivalent(l.slope, slope) && isEquivalent(l.intercept, intercept) && (infinite_slope == l.infinite_slope)) {
     		return true;
     	}
